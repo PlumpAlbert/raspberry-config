@@ -1,0 +1,31 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- name: Install docker on server
+  tags: web,docker
+
+  tasks:
+    - name: Install docker
+      ansible.builtin.shell:
+        creates: /bin/docker
+        cmd: >
+          curl -fsSL https://get.docker.com -o /tmp/get-docker.sh &&
+          sh /tmp/get-docker.sh &&
+          rm -f /tmp/get-docker.sh
+
+    - name: Append `docker` group to remote user
+      ansible.builtin.user:
+        name: "{{ username }}"
+        append: true
+        groups: docker
+
+    - name: Enable docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Install docker-compose
+      ansible.builtin.pip:
+        name: docker-compose
+        state: latest
+        extra_args: '--break-system-packages'
