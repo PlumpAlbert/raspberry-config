@@ -1,0 +1,33 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- name: Install PostgreSQL
+  tags: web,database
+  ansible.builtin.apt:
+    update_cache: true
+    name: postgresql
+    state: latest
+
+- name: Get PostgreSQL version
+  tags: database
+  register: db_version
+  ansible.builtin.shell:
+    cmd: psql --version | awk '{print int($3)}'
+
+- name: Allow connections from docker network
+  tags: docker,database
+  ansible.builtin.template:
+    src: pg_hba.conf
+    dest: /etc/postgresql/{{ db_version.stdout }}/main/pg_hba.conf
+
+- name: Change database listening interfaces
+  tags: database
+  ansible.builtin.template:
+    src: postgresql.conf
+    dest: /etc/postgresql/{{ db_version.stdout }}/main/conf.d/interfaces.conf
+
+- name: Restart database to apply settings
+  tags: database
+  ansible.builtin.service:
+    name: postgresql
+    state: restarted
+    enabled: true
