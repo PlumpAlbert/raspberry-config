@@ -1,0 +1,3 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- include_tasks: nginx.yml

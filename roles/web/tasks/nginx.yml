@@ -1,0 +1,21 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- name: Install nginx
+  tags: web
+  ansible.builtin.apt:
+    update_cache: true
+    name: nginx
+    state: latest
+
+- name: Configure nginx server
+  tags: web
+  ansible.builtin.template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Start and enable service
+  tags: web
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
