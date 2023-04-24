@@ -1,0 +1,5 @@
+# vim:ft=yaml.ansible:ts=4:sw=0:et
+---
+username: raspberry
+password: secure_password
+ssh_port: 22
