@@ -1,0 +1,11 @@
+Include /etc/ssh/sshd_config.d/*.conf
+
+Port {{ ssh_port }}
+PermitRootLogin prohibit-password
+MaxAuthTries 6
+MaxSessions 5
+PubkeyAuthentication yes
+UsePAM yes
+X11Forwarding no
+AcceptEnv LANG LC_*
+Subsystem sftp /usr/lib/openssh/sftp-server
