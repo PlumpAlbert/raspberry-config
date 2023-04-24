@@ -1,0 +1,28 @@
+" vim:ft=vim:ts=4:sw=0:noet
+syntax enable
+set number relativenumber
+set nowrap
+set splitbelow splitright
+
+set tabstop=4
+set softtabstop=0
+set shiftwidth=0
+set noexpandtab
+
+set smartindent
+set nohlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+set foldenable
+set foldlevel=9999
+set foldlevelstart=9999
+set foldmethod=syntax
+
+set colorcolumn=81
+let g:mapleader=' '
+
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+nnoremap <silent> <leader><space> <cmd>Explore<cr>

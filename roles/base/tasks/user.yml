@@ -1,0 +1,25 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- name: Create VIM configuration
+  tags:
+    - base
+    - user
+  ansible.builtin.template:
+    src: vimrc
+    dest: /etc/vimrc
+
+- name: Clone tmux plugin manager
+  tags:
+    - base
+    - user
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: /usr/local/share/tmux/plugins/tpm
+
+- name: Create config for tmux
+  tags:
+    - base
+    - user
+  ansible.builtin.template:
+    src: tmux.conf
+    dest: /etc/tmux.conf
