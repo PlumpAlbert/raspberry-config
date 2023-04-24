@@ -20,7 +20,9 @@
       - libssl-dev
 
 - name: Create remote user
-  tags: base,user
+  tags:
+    - base
+    - user
   ansible.builtin.user:
     name: "{{ username }}"
     password: "{{ password | password_hash('sha512') }}"

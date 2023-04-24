@@ -13,7 +13,9 @@
     cmd: sh /tmp/get-docker.sh && rm -f /tmp/get-docker.sh
 
 - name: Append `docker` group to remote user
-  tags: docker,user
+  tags:
+    - docker
+    - user
   ansible.builtin.user:
     name: "{{ username }}"
     append: true
