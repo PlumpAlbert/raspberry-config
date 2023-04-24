@@ -1,17 +1,13 @@
 # vim:ft=yaml.ansible:ts=2:sw=0:et
 ---
-- name: Configure SSH server
-  remote_user: root
-  hosts: all
+- name: Update sshd config
   tags: base,ssh
+  ansible.builtin.template:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
 
-  tasks:
-    - name: Update sshd config
-      ansible.builtin.template:
-        src: sshd_config
-        dest: /etc/ssh/sshd_config
-
-    - name: Restart sshd service
-      ansible.builtin.service:
-        name: sshd
-        state: restarted
+- name: Restart sshd service
+  tags: base,ssh
+  ansible.builtin.service:
+    name: sshd
+    state: restarted

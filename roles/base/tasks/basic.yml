@@ -1,31 +1,27 @@
 # vim:ft=yaml.ansible:ts=2:sw=0:et
 ---
-- name: Perform base server configuration
-  hosts: all
+- name: Update system
+  tags: base
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: full
 
-  tasks:
-    - name: Update system
-      tags: base
-      ansible.builtin.apt:
-        update_cache: true
-        upgrade: full
+- name: Install essential apps
+  tags: base
+  ansible.builtin.apt:
+    state: latest
+    name:
+      - vim
+      - curl
+      - sudo
+      - python3
+      - python3-pip
+      - libffi-dev
+      - libssl-dev
 
-    - name: Install essential apps
-      tags: base
-      ansible.builtin.apt:
-        state: latest
-        name:
-          - vim
-          - curl
-          - sudo
-          - python3
-          - python3-pip
-          - libffi-dev
-          - libssl-dev
-
-    - name: Create remote user
-      tags: base,user
-      ansible.builtin.user:
-        name: "{{ username }}"
-        password: "{{ password | password_hash('sha512') }}"
-        group: users
+- name: Create remote user
+  tags: base,user
+  ansible.builtin.user:
+    name: "{{ username }}"
+    password: "{{ password | password_hash('sha512') }}"
+    group: users
