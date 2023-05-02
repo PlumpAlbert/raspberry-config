@@ -1,4 +1,4 @@
 # vim:ft=yaml.ansible:ts=2:sw=0:et
 ---
-- include_tasks: nginx.yml
-- include_tasks: database.yml
+- ansible.builtin.include_tasks: nginx.yml
+- ansible.builtin.include_tasks: database.yml

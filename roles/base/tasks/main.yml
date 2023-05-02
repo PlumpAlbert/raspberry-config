@@ -1,5 +1,5 @@
 # vim:ft=yaml.ansible:ts=2:sw=0:et
 ---
-- include_tasks: user.yml
-- include_tasks: basic.yml
-- include_tasks: ssh.yml
+- ansible.builtin.import_tasks: user.yml
+- ansible.builtin.import_tasks: basic.yml
+- ansible.builtin.import_tasks: ssh.yml
