@@ -11,6 +11,6 @@ $TTL	604800
 ; name servers
 	IN	NS	ns.plump.rb.
 ; A records
+@				IN	A	192.168.0.101
 ns.plump.rb.			IN	A	192.168.0.101
-plump.rb.			IN	CNAME	ns.plump.rb.
-owncloud.plump.rb.		IN	CNAME	ns.plump.rb.
+owncloud.plump.rb.		IN	CNAME	plump.rb.
