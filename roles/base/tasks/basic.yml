@@ -9,7 +9,7 @@
 - name: Install essential apps
   tags: base
   ansible.builtin.apt:
-    state: latest
+    state: present
     name:
       - vim
       - curl
