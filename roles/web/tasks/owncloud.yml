@@ -1,0 +1,41 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- name: install and configure ownCloud
+  tags:
+    - web
+    - owncloud
+  block:
+    - name: create app directory
+      ansible.builtin.file:
+        path: /root/apps/owncloud
+        state: directory
+
+    - name: copy `docker-compose` configuration
+      ansible.builtin.template:
+        src: owncloud/docker-compose.yml
+        dest: /root/apps/owncloud/docker-compose.yml
+
+    - name: create data directory
+      ansible.builtin.file:
+        path: /var/volume/owncloud
+        state: directory
+
+    - name: start docker containers
+      ansible.builtin.docker_compose:
+        project_src: /root/apps/owncloud
+
+    - name: create nginx config
+      ansible.builtin.template:
+        src: owncloud/nginx.conf
+        dest: /etc/nginx/sites-available/owncloud.conf
+
+    - name: activate nginx config
+      ansible.builtin.file:
+        src: /etc/nginx/sites-available/owncloud.conf
+        dest: /etc/nginx/sites-enabled/owncloud.conf
+        state: link
+
+    - name: reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted

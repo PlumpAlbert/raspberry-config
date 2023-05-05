@@ -3,3 +3,7 @@
 username: raspberry
 password: secure_password
 ssh_port: 22
+# ownCloud config
+owncloud_port: 3000
+owncloud_admin: admin
+owncloud_admin_password: secure_password
