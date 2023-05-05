@@ -1,0 +1,4 @@
+zone "plump.rb" {
+    type master;
+    file "/etc/bind/zones/db.plump.rb";
+};

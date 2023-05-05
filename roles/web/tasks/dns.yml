@@ -1,0 +1,35 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- name: Install and configure DNS server
+  tags:
+    - web
+    - dns
+  block:
+    - name: install packages
+      ansible.builtin.apt:
+        update_cache: true
+        state: present
+        name:
+          - bind9
+          - bind9-utils
+
+    - name: create zones folder
+      ansible.builtin.file:
+        path: /etc/bind/zones
+        state: directory
+
+    - name: add forward zone
+      ansible.builtin.template:
+        src: dns.named
+        dest: /etc/bind/named.conf.local
+
+    - name: configure zone
+      ansible.builtin.template:
+        src: dns.zone
+        dest: /etc/bind/zones/db.plump.rb
+
+    - name: restart service
+      ansible.builtin.service:
+        name: bind9
+        state: restarted
+        enabled: true
