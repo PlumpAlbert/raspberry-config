@@ -1,0 +1,76 @@
+# vim:ft=yaml:ts=2:sw=0:et
+version: "3"
+services:
+  vpn:
+    container_name: vpn
+    hostname: vpn
+    image: qmcgaw/gluetun:latest
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - VPN_SERVICE_PROVIDER={{ openvpn_provider }}
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER={{ openvpn_user }}
+      - OPENVPN_PASSWORD={{ openvpn_password }}
+      - SERVER_HOSTNAMES=se-sto.prod.surfshark.com,pl-waw.prod.surfshark.com
+    networks:
+      - secure_network
+    ports:
+      - 7878:7878
+      - 9117:9117
+      - 6881:6881
+      - 6881:6881/udp
+    restart: "unless-stopped"
+
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    depends_on:
+      - vpn
+    network_mode: service:vpn
+    environment:
+      - PUID=33
+      - PGID=33
+      - TZ=Europe/Moscow
+    volumes:
+      - /etc/jackett:/config
+      - /var/volume/torrents:/downloads
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    network_mode: service:vpn
+    depends_on:
+      - vpn
+      - jackett
+    environment:
+      - PUID=33
+      - PGID=33
+      - TZ=Europe/Moscow
+    volumes:
+      - /etc/radarr:/config
+      - /var/volume/kodi/movies:/movies
+      - /var/volume/kodi/downloads:/downloads
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    hostname: qbittorrent
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    networks:
+      - secure_network
+    environment:
+      - PUID=33
+      - PGID=33
+      - TZ=Europe/Moscow
+      - WEBUI_PORT=8080
+    volumes:
+      - /etc/qbittorrent:/config
+      - /var/volume/kodi:/downloads
+
+networks:
+  secure_network:
