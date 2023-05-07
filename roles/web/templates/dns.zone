@@ -14,3 +14,5 @@ $TTL	604800
 @				IN	A	192.168.0.101
 ns.plump.rb.			IN	A	192.168.0.101
 owncloud.plump.rb.		IN	CNAME	plump.rb.
+torrent.plump.rb.		IN	CNAME	plump.rb.
+watch.plump.rb.			IN	CNAME	plump.rb.
