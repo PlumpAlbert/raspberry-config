@@ -7,3 +7,7 @@ ssh_port: 22
 owncloud_port: 3000
 owncloud_admin: admin
 owncloud_admin_password: secure_password
+# vpn config
+openvpn_provider: provider # https://github.com/qdm12/gluetun/wiki
+openvpn_user: username
+openvpn_password: password
