@@ -4,3 +4,4 @@
 - ansible.builtin.include_tasks: nginx.yml
 - ansible.builtin.include_tasks: database.yml
 - ansible.builtin.include_tasks: owncloud.yml
+- ansible.builtin.include_tasks: media.yml
