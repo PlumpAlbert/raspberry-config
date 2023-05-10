@@ -10,8 +10,28 @@
 - name: Configure nginx server
   tags: web
   ansible.builtin.template:
-    src: nginx.conf
+    src: nginx/nginx.conf
     dest: /etc/nginx/nginx.conf
+
+- name: copy common config
+  tags: web
+  ansible.builtin.template:
+    src: nginx/common.conf
+    dest: /etc/nginx/common.conf
+
+- name: copy common location config
+  tags: web
+  ansible.builtin.template:
+    src: nginx/common_location.conf
+    dest: /etc/nginx/common_location.conf
+
+- name: copy SSL-related config
+  tags:
+    - web
+    - security
+  ansible.builtin.template:
+    src: nginx/ssl.conf
+    dest: /etc/nginx/ssl.conf
 
 - name: Start and enable service
   tags: web
