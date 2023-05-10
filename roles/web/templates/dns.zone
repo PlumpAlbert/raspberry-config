@@ -16,3 +16,6 @@ ns.plump.rb.			IN	A	192.168.0.101
 owncloud.plump.rb.		IN	CNAME	plump.rb.
 torrent.plump.rb.		IN	CNAME	plump.rb.
 watch.plump.rb.			IN	CNAME	plump.rb.
+jackett.plump.rb.		IN	CNAME	plump.rb.
+radarr.plump.rb.		IN	CNAME	plump.rb.
+sonarr.plump.rb.		IN	CNAME	plump.rb.
