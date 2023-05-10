@@ -7,13 +7,13 @@
   block:
     - name: create app directory
       ansible.builtin.file:
-        path: /root/apps/owncloud
+        path: /dockers/owncloud
         state: directory
 
     - name: copy `docker-compose` configuration
       ansible.builtin.template:
         src: owncloud/docker-compose.yml
-        dest: /root/apps/owncloud/docker-compose.yml
+        dest: /dockers/owncloud/docker-compose.yml
 
     - name: create data directory
       ansible.builtin.file:
@@ -22,7 +22,7 @@
 
     - name: start docker containers
       ansible.builtin.docker_compose:
-        project_src: /root/apps/owncloud
+        project_src: /dockers/owncloud
 
     - name: create nginx config
       ansible.builtin.template:
