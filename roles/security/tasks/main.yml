@@ -1,0 +1,4 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- ansible.builtin.include_tasks: ./firewall.yml
+- ansible.builtin.include_tasks: ./ssl.yml

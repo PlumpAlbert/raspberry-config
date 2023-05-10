@@ -1,0 +1,39 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- name: Create SSL certificate
+  tags:
+    - ssl
+    - web
+    - security
+  block:
+    - name: install openssl
+      ansible.builtin.apt:
+        name: openssl
+        state: present
+
+    - name: create private key
+      ansible.builtin.openssl_privatekey:
+        path: /etc/ssl/private/plump.key
+
+    - name: create CSR
+      ansible.builtin.openssl_csr:
+        path: /etc/ssl/private/plump.csr
+        privatekey_path: /etc/ssl/private/plump.key
+        common_name: plump.rb
+        organization_name: PlumpAlbert
+        subject_alt_name:
+          - "DNS:plump.rb"
+          - "DNS:ns.plump.rb"
+          - "DNS:torrent.plump.rb"
+          - "DNS:radarr.plump.rb"
+          - "DNS:sonarr.plump.rb"
+          - "DNS:watch.plump.rb"
+          - "DNS:jackett.plump.rb"
+          - "DNS:owncloud.plump.rb"
+
+    - name: create self-signed certificate
+      community.crypto.x509_certificate:
+        path: /etc/ssl/private/plump.pem
+        csr_path: /etc/ssl/private/plump.csr
+        privatekey_path: /etc/ssl/private/plump.key
+        provider: selfsigned

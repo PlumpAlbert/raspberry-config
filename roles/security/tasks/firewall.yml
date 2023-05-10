@@ -1,0 +1,49 @@
+# vim:ft=yaml.ansible:ts=2:sw=0:et
+---
+- name: Install and configure firewall
+  tags:
+    - secutiry
+    - firewall
+  block:
+    - name: install ufw
+      ansible.builtin.apt:
+        name: ufw
+        state: present
+
+    - name: deny all incoming traffic
+      ansible.builtin.ufw:
+        default: deny
+        direction: incoming
+
+    - name: allow all outgoing traffic
+      ansible.builtin.ufw:
+        default: allow
+        direction: outgoing
+
+    - name: allow SSH port
+      ansible.builtin.ufw:
+        rule: allow
+        port: "{{ ssh_port }}"
+        proto: tcp
+
+    - name: allow DNS server port
+      ansible.builtin.ufw:
+        rule: allow
+        port: "53"
+        proto: any
+
+    - name: allow HTTP traffic
+      ansible.builtin.ufw:
+        rule: allow
+        port: 80
+        proto: tcp
+
+    - name: allow HTTPS traffic
+      ansible.builtin.ufw:
+        rule: allow
+        port: 443
+        proto: tcp
+
+    - name: enable firewall
+      ansible.builtin.ufw:
+        state: enabled
