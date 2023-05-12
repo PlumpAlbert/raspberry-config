@@ -102,7 +102,7 @@ services:
             - VERSION=docker
             - PLEX_CLAIM=claim-JcwpQjwWLkyCMdzChfvz
         volumes:
-            - /etc/plex:/config
+            - /var/volume/kodi/config:/config
             - /var/volume/kodi/movies:/movies
             - /var/volume/kodi/series:/tv
 
